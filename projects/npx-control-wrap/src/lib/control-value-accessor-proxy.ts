@@ -4,7 +4,7 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class ControlValueAccessorProxy implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
-    if (this.delegate == null) {
+    if (!this.delegate) {
       this.delayCall('setDisabledState', isDisabled)
       return;
     }
@@ -17,7 +17,7 @@ export class ControlValueAccessorProxy implements ControlValueAccessor {
   private delegate?: ControlValueAccessor;
 
   registerOnChange(fn: any): void {
-    if (this.delegate == null) {
+    if (!this.delegate) {
       this.delayCall('registerOnChange', fn);
       return;
     }
@@ -25,7 +25,7 @@ export class ControlValueAccessorProxy implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: any): void {
-    if (this.delegate == null) {
+    if (!this.delegate) {
       this.delayCall('registerOnTouched', fn);
       return
     }
@@ -33,7 +33,7 @@ export class ControlValueAccessorProxy implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    if (this.delegate == null) {
+    if (!this.delegate) {
       this.delayCall('writeValue', obj)
       return;
     }
@@ -41,7 +41,7 @@ export class ControlValueAccessorProxy implements ControlValueAccessor {
   }
 
   setDelegate(ctrl: ControlValueAccessor) {
-    if (ctrl == null) {
+    if (!ctrl) {
       throw new Error("Delegate MUST NOT BE NULL");
     }
     this.delegate = ctrl;
