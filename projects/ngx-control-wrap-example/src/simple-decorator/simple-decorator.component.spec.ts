@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxControlWrapComponent } from './ngx-control-wrap.component';
+import { SimpleDecoratorComponent } from './simple-decorator.component';
 
-describe('NgxControlWrapComponent', () => {
-  let component: NgxControlWrapComponent;
-  let fixture: ComponentFixture<NgxControlWrapComponent>;
+describe('SimpleDecoratorComponent', () => {
+  let component: SimpleDecoratorComponent;
+  let fixture: ComponentFixture<SimpleDecoratorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxControlWrapComponent]
+      imports: [SimpleDecoratorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(NgxControlWrapComponent);
+    fixture = TestBed.createComponent(SimpleDecoratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

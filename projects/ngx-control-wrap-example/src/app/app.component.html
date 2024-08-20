@@ -1,0 +1,15 @@
+<h1>Control wrappers with ease!</h1>
+<section>
+
+  <app-simple-decorator [(ngModel)]="simpleWrapperValue"
+                        label="Simple input decorator - ngModel"></app-simple-decorator>
+  value: {{simpleWrapperValue}}
+
+  <app-simple-decorator [formControl]="simpleWrapperControl"
+                        label="Simple input decorator - formControl"></app-simple-decorator>
+  value: {{simpleWrapperControl.value}}
+</section>
+
+
+
+

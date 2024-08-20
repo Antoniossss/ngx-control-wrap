@@ -9,7 +9,7 @@ export class ControlValueAccessorProxy implements ControlValueAccessor {
       return;
     }
 
-    this.delegate?.setDisabledState?.(true);
+    this.delegate?.setDisabledState?.(isDisabled);
   }
 
   private calls: aCall[] = [];

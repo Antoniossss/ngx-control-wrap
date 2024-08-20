@@ -1,27 +1,52 @@
-# NgxControlWrap
+## Create control decorator with ease!
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+No more implementing `ControlValueAccessor` when in need having simple decorators. Using only two directives, control decorator will be bind to ReactiveFormsApi or FormsApi in no time.
 
-## Development server
+### Advantages
+1) No need to implement `ControlValueAccessor` if all you wanted is just do simple decorator
+2) Thanks to internal `ControlValueAccessor` implementation, works with `FormsModule` and `ReactiveFormsModule` out of the box just like it would be custom control 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Disadvantages
+1) It should not be needed at all and Angular should support such delegation out of the box..... but since it does not.... :)
 
-## Code scaffolding
+### How to use?
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+In order to create a component decorator, you will need two things:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1) Decorator component that will deliver ControlValueAccessor via well know directives like `[formControl]`,`[formControlName]`,`[ngModel]` and `ngDefaultControl` (less known, but still handy!)
+2) `controlWrap` and `controlWrapperHost` directives
 
-## Running unit tests
+Example:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Our custom decorated control implementation:
+````
+@Component({
+  selector: 'app-simple-decorator',
+  standalone: true,
+  imports: [FormsModule, ControlWrapDirective],
+  template: `
+    <div class="group">
+      <label>{{label()}}</label>
+      <input ngDefaultControl controlWrap/> //this specifies that ControlValueAccessor provided here by ngDefaultControl should be "exposed" outside for usage
+    </div>
+  `,
+  styleUrl: './simple-decorator.component.scss',
+  hostDirectives: [ControlWrapHostDirective],//this allows outer world to use this component as a ControlValueAccessor
+})
+export class SimpleDecoratorComponent {
+  label = input<string>()
+}
+````
+Client usage example:
 
-## Running end-to-end tests
+````
+<section>
+  <app-simple-decorator [(ngModel)]="simpleWrapperValue" //or formControl or formControlName 
+                        label="Simple input decorator - ngModel"></app-simple-decorator>
+</section>
+````
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### How it works?
+Internally it provides `ControlValueAccessor` implementation that delegates calls to the destination ControlValueAccessor once it becomes available
