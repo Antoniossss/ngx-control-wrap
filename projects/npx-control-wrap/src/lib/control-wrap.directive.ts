@@ -9,6 +9,9 @@ import {
   NgControl
 } from "@angular/forms";
 
+/**
+ * A directive that bind outer ControlValueAccessor (eg provided by [controlWrapHost]) with inner ControlValueAccessor provided by ormControl,formControlName,ngModel or DefaultValueAccessor
+ */
 @Directive({
   selector: '[controlWrap]',
   standalone: true,
@@ -25,14 +28,18 @@ export class ControlWrapDirective {
   }
 }
 
+/**
+ * A directive used to denote current component as custom form control implementation that will bind its ControlValueAccessor that is provided by it with inner ControlValueAccessor somewhere inside that will be provided by ngModel,formControl,formControlName or DefautlValueAccessor directives (or even custom ones)
+ * Always used in conjunction with ControlWrapDirective
+ */
 @Directive({
   selector: "[controlWrapHost]",
-  standalone:true,
+  standalone: true,
   providers: [
     {provide: NG_VALUE_ACCESSOR, useExisting: ControlValueAccessorProxy, multi: true},
     {provide: ControlValueAccessorProxy, useClass: ControlValueAccessorProxy}
   ]
 })
-export class ControlWrapHost {
+export class ControlWrapHostDirective {
 
 }

@@ -1,4 +1,4 @@
-import {ControlWrapDirective} from './control-wrap.directive';
+import {ControlWrapDirective, ControlWrapHostDirective} from './control-wrap.directive';
 import {Component} from "@angular/core";
 import {FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
 import {ComponentFixture, TestBed} from "@angular/core/testing";
@@ -25,6 +25,7 @@ describe('ControlWrapDirective', () => {
       fixture.componentInstance.ctrl.setValue("I am the initial!");
       fixture.detectChanges()
       expect(fixture.debugElement.query(By.css("input")).nativeElement.value).toEqual("I am the initial!")
+      expect(fixture.debugElement.query(By.css("input")).nativeElement.disabled).toBeFalsy()
     })
 
     it('binds changed values to the inner control just fine', () => {
@@ -54,6 +55,7 @@ describe('ControlWrapDirective', () => {
       fixture.detectChanges()
       await fixture.whenStable()
       expect(fixture.debugElement.query(By.css("input")).nativeElement.value).toEqual("I am the initial!")
+      expect(fixture.debugElement.query(By.css("input")).nativeElement.disabled).toBeFalsy()
     })
 
     it('binds changed values to the inner control just fine', async () => {
@@ -90,10 +92,7 @@ describe('ControlWrapDirective', () => {
     <br/>
     Wrapping ends
   `,
-  providers: [
-    {provide: NG_VALUE_ACCESSOR, useExisting: ControlValueAccessorProxy, multi: true},
-    {provide: ControlValueAccessorProxy, useClass: ControlValueAccessorProxy}
-  ]
+  hostDirectives:[ControlWrapHostDirective],
 })
 class CustomTestComponent {
 }
